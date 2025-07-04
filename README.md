@@ -1,12 +1,57 @@
-# React + Vite
+# TECHX 🚀
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+**AI-powered learning assistant for students and self-learners—debug errors, build code, and discover structured learning paths.**
 
-Currently, two official plugins are available:
+---
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## 🎯 Overview
 
-## Expanding the ESLint configuration
+**TECHX** integrates multi-modal AI (image and chat) to empower learners in studying, debugging, and mastering new tech stacks. Whether you're stuck on an error, building from scratch, or designing your learning roadmap, TECHX supports you with intelligent guidance.
 
-If you are developing a production application, we recommend using TypeScript and enable type-aware lint rules. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+---
+
+## ✨ Key Features
+
+- 💬 **Interactive Chatbot**  
+  Conversational interface powered by Botpress and ChatGPT, allowing learners to ask questions and receive instant explanations.
+
+- 📸 **Visual Error Debugging**  
+  Upload screenshots of errors—Gemini API interprets and provides step-by-step solutions.
+
+- 🗺️ **Roadmap Generator**  
+  Adaptive learning roadmap generated via prompt-engineered ChatGPT prompts, tailored to any tech stack and learner level.
+
+- ▶️ **In-App Code Runner**  
+  Test code snippets directly in-app with immediate feedback and debugging support.
+
+- 📚 **Hybrid Knowledge Base**  
+  First consults W3Schools; if answers are missing, it queries ChatGPT—combining static knowledge with generative AI depth.
+
+---
+
+## 🛠️ Tech Stack
+
+- **Frontend**: React + Tailwind CSS  
+- **Backend**: Node.js + Clerk (authentication)  
+- **AI Services**:
+  - Botpress (chat management)
+  - Gemini API (vision-based error analysis)
+  - ChatGPT (roadmap & enhanced QA via prompt-engineering)
+
+---
+
+## 🚀 Getting Started
+
+### 🔧 Prerequisites
+
+- Node.js >= 18  
+- npm or Yarn  
+- Gemini API key, ChatGPT API key  
+- Clerk configuration  
+
+### ⚙️ Setup
+
+```bash
+git clone https://github.com/yourusername/techx.git
+cd techx
+npm install
