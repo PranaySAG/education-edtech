@@ -1,4 +1,4 @@
-import { useState, createContext, useContext, useEffect } from "react";
+import React, { useState, createContext, useContext, useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
 import logo from "../../assets/logo.svg";
 import profile from "../../assets/profile.svg";
@@ -20,7 +20,7 @@ export default function Sidebar({ children }) {
   const location = useLocation();
 
   const { openSignIn, signOut, openUserProfile } = useClerk();
-  const { isSignedIn, isLoaded, user } = useUser(); // Destructure 'user' object here
+  const { isSignedIn, isLoaded, user } = useUser();
 
   useEffect(() => {
     const handleClickOutside = (event) => {
@@ -45,22 +45,12 @@ export default function Sidebar({ children }) {
   };
 
   const handleProfileAreaClick = () => {
-    if (!isLoaded) {
-      return;
-    }
-    if (isSignedIn) {
-      openUserProfile();
-    } else {
-      openSignIn();
-    }
+    if (!isLoaded) return;
+    isSignedIn ? openUserProfile() : openSignIn();
   };
 
   const handleViewProfileClick = () => {
-    if (isSignedIn) {
-      openUserProfile();
-    } else {
-      openSignIn();
-    }
+    isSignedIn ? openUserProfile() : openSignIn();
     setDropdownOpen(false);
   };
 
@@ -72,15 +62,16 @@ export default function Sidebar({ children }) {
   return (
     <SidebarContext.Provider value={{ expanded, location, theme }}>
       <aside
-        className={`h-screen ${
-          theme === "dark" ? "bg-gray-900 text-gray-100" : "bg-white"
-        }`}
+        className={`h-screen transition-all duration-300 ${
+          expanded ? "w-52" : "w-16"
+        } ${theme === "dark" ? "bg-gray-900 text-gray-100" : "bg-white"}`}
       >
         <nav
           className={`h-full flex flex-col border-r shadow-sm ${
             theme === "dark" ? "border-gray-700 bg-gray-900" : "bg-white"
           }`}
         >
+          {/* Logo and Toggle */}
           <div className="p-4 pb-2 flex justify-between items-center">
             <img
               src={logo}
@@ -101,8 +92,10 @@ export default function Sidebar({ children }) {
             </button>
           </div>
 
+          {/* Navigation Items */}
           <ul className="flex-1 px-3">{children}</ul>
 
+          {/* Profile Section */}
           <div
             className={`border-t flex p-3 relative profile-dropdown-container ${
               theme === "dark" ? "border-gray-700" : ""
@@ -136,9 +129,8 @@ export default function Sidebar({ children }) {
                   className="w-10 h-10 rounded-md"
                 />
               )}
-              {/* Conditional display of "Hi, FirstName" */}
               {expanded && isLoaded && isSignedIn ? (
-                <span>Hi, {user.firstName || 'User'}</span>
+                <span>Hi, {user.firstName || "User"}</span>
               ) : expanded ? (
                 <span>My Profile</span>
               ) : null}
@@ -164,7 +156,9 @@ export default function Sidebar({ children }) {
                 <button
                   onClick={handleViewProfileClick}
                   className={`block w-full text-left px-4 py-2 text-sm ${
-                    theme === "dark" ? "hover:bg-gray-700" : "hover:bg-gray-100"
+                    theme === "dark"
+                      ? "hover:bg-gray-700"
+                      : "hover:bg-gray-100"
                   }`}
                 >
                   View Profile
@@ -172,7 +166,9 @@ export default function Sidebar({ children }) {
                 <button
                   onClick={toggleTheme}
                   className={`flex items-center w-full px-4 py-2 text-sm ${
-                    theme === "dark" ? "hover:bg-gray-700" : "hover:bg-gray-100"
+                    theme === "dark"
+                      ? "hover:bg-gray-700"
+                      : "hover:bg-gray-100"
                   }`}
                 >
                   {theme === "light" ? (
@@ -185,7 +181,9 @@ export default function Sidebar({ children }) {
                 <button
                   onClick={handleLogoutClick}
                   className={`block w-full text-left px-4 py-2 text-sm text-red-600 ${
-                    theme === "dark" ? "hover:bg-gray-700" : "hover:bg-gray-100"
+                    theme === "dark"
+                      ? "hover:bg-gray-700"
+                      : "hover:bg-gray-100"
                   }`}
                 >
                   Logout
@@ -201,25 +199,28 @@ export default function Sidebar({ children }) {
 
 export function SidebarItem({ icon, text, to }) {
   const { expanded, location, theme } = useContext(SidebarContext);
+  const isActive = location.pathname === to;
 
   return (
     <Link to={to} className="block">
       <li
-        className={`relative flex items-center py-2 px-3 my-1 font-medium rounded-md cursor-pointer transition-colors group
-                    ${
-                      location.pathname === to
-                        ? theme === "dark"
-                          ? "bg-indigo-600 text-white"
-                          : "bg-indigo-200 text-indigo-800"
-                        : theme === "dark"
-                        ? "hover:bg-gray-700 text-gray-300"
-                        : "hover:bg-indigo-50 text-gray-600"
-                    }`}
+        className={`flex items-center px-2.5 py-2 my-1 rounded-md transition-colors duration-200
+          ${
+            isActive
+              ? theme === "dark"
+                ? "bg-indigo-600 text-white"
+                : "bg-indigo-200 text-indigo-800"
+              : theme === "dark"
+              ? "hover:bg-gray-700 text-gray-300"
+              : "hover:bg-indigo-50 text-gray-600"
+          }`}
       >
-        {icon}
+        <div className="flex items-center justify-center w-6 h-6">
+          {React.cloneElement(icon, { className: "w-5 h-5" })}
+        </div>
         <span
-          className={`overflow-hidden transition-all ${
-            expanded ? "w-40 ml-3" : "w-0"
+          className={`ml-3 overflow-hidden transition-all whitespace-nowrap ${
+            expanded ? "w-40" : "w-0"
           }`}
         >
           {text}
